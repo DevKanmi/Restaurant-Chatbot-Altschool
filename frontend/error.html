@@ -1,0 +1,43 @@
+<!-- success.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Payment Failed</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 40px;
+      background-color: #f0fff0;
+    }
+
+    .message {
+      font-size: 1.5em;
+      color: #2e7d32;
+    }
+
+    a {
+      margin-top: 20px;
+      display: inline-block;
+      text-decoration: none;
+      background-color: #fff0f0;
+      color: #c62828;
+      padding: 10px 20px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="message" id="status-message"></div>
+  <a href="index.html">Back to Chat</a>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const message = params.get('message') || "Payment failed. Please try again.";
+    document.getElementById('status-message').innerText = message;
+  </script>
+</body>
+</html>
+
