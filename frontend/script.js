@@ -2,8 +2,10 @@ const sendButton = document.getElementById('send-btn');
 const userInput = document.getElementById('user-input');
 const chatArea = document.getElementById('chat-area');
 
-// Initialize a session ID (in a real app, generate or fetch from backend)
-let sessionId = 'user-session-id';  // This would be dynamic in a production app
+const base_url = 'https://restaurant-chatbot-altschool.onrender.com'
+
+
+const sessionId = `session-${Date.now()}-${Math.random().toString(36).substring(2, 15)}`;
 
 // Function to add messages to the chat
 function addMessageToChat(message, sender) {
@@ -17,7 +19,6 @@ function addMessageToChat(message, sender) {
   chatArea.scrollTop = chatArea.scrollHeight;  // Ensure chat auto-scrolls to bottom
 }
 
-// Function to simulate a loading state (when the bot is typing)
 function showLoading() {
   const loader = document.createElement('div');
   loader.classList.add('loader');
@@ -44,7 +45,7 @@ async function sendMessage() {
   showLoading();
 
   try {
-    const res = await fetch('http://localhost:3000/chat', {
+    const res = await fetch(`${base_url}/chat`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ sessionId, message }),
@@ -55,22 +56,19 @@ async function sendMessage() {
 
     const formattedMessage = data.reply.replace(/\n/g, '<br>');
 
-    // Check if message contains the PAY_NOW_BUTTON placeholder
     if (formattedMessage.includes('PAY_NOW_BUTTON')) {
-      // Replace PAY_NOW_BUTTON with an actual button
       addMessageToChat(
         formattedMessage.replace('PAY_NOW_BUTTON', '<button id="pay-now-btn">Pay Now</button>'),
         'bot'
       );
 
-      // Attach click event to the "Pay Now" button after it's been added to the DOM
       setTimeout(() => {
         const payBtn = document.getElementById('pay-now-btn');
         if (payBtn) {
           payBtn.addEventListener('click', async () => {
             showLoading();
             try {
-              const res = await fetch('http://localhost:3000/chat/checkout', {
+              const res = await fetch(`${base_url}/chat/checkout`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ sessionId }),
@@ -120,7 +118,7 @@ async function loadWelcomeMessage() {
   showLoading();
 
   try {
-    const res = await fetch('http://localhost:3000/chat', {
+    const res = await fetch(`${base_url}/chat`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ sessionId, message: 'hi' }),  // simulate "hi"
