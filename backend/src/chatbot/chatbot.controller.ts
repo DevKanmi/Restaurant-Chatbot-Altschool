@@ -24,28 +24,23 @@ export class ChatbotController {
     return this.chatbotService.initiatePayment(session);
   }
 
-  @Get('/payment-success')
-  paymentSuccess() {
-    return '✅ Payment successful! You can now return to chat.';
-  }
-
   @Get('pay/callback')
   async handlePaystackCallback(
     @Query('reference') reference: string,
     @Res() res: Response,
   ) {
     try {
-      await this.chatbotService.verifyPayment(reference); // Call it without assigning to a variable
+      await this.chatbotService.verifyPayment(reference);
 
       // If needed later, you can still update the session/order here
 
       return res.redirect(
-        `http://localhost:5500/frontend/success.html?message=Payment%20Successful!`,
+        `https://restaurant-chatbot-altschool.vercel.app/success.html?message=Payment%20Successful!`,
       );
     } catch (error) {
       console.error('Error verifying payment:', error);
       return res.redirect(
-        `http://localhost:5500/frontend/error.html?message=Payment%20Failed%20or%20Invalid%20Reference`,
+        `https://restaurant-chatbot-altschool.vercel.app/error.html?message=Payment%20Failed%20or%20Invalid%20Reference`,
       );
     }
   }

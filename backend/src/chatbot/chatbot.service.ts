@@ -45,7 +45,8 @@ export class ChatbotService {
       {
         email: 'user@example.com',
         amount: total * 100,
-        callback_url: 'http://localhost:3000/chat/pay/callback',
+        callback_url:
+          'https://restaurant-chatbot-altschool.onrender.com/chat/pay/callback',
       },
       {
         headers: {
